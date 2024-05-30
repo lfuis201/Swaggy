@@ -1,0 +1,61 @@
+
+
+
+{% extends "main/landing_page.html" %}
+
+{% block content %}
+  <div class="home bg-dark">
+
+    <div class="container">
+      <input type="text" id="search-input" class="form-control mb-3" placeholder="Search dishes">
+      <div id="search-suggestions" class="dropdown-menu" aria-labelledby="search-input">
+          <!-- Aquí se mostrarán las sugerencias de búsqueda -->
+      </div>
+      <h1 class="text-center text-light mb-3">Our Dishes</h1>
+      <div class="row" id="menu-items-container">
+        {% for item in menu_items %}
+            <div class="col-sm-4">
+                <div class="card mb-3" style="height: fit-content; overflow: auto;">
+                  <img src="{{ item.image.url }}" style="height: 250px; width: 300px;">
+                    <div class="card-body text-center">      
+                      <button class="btn btn-warning">By:{{ item.created_by }}</button>         
+                      <h5 class="text-center"><a href="{% url 'main:dishes' item.slug %}">{{ item.title }} </a><span class="badge badge-{{ item.label_colour }}">{{ item.labels }}</span></h5>
+                      <p class="text-center">{{ item.description }}</p>
+                      <h5 class="text-center">₹ {{ item.price }}</h5>    
+                      <a href="{% url 'main:dishes' item.slug %}" class="btn btn-info float-right">View Details</a>           
+                    </div>
+                </div>
+            </div>            
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <script>
+    function searchItems() {
+      var input = document.getElementById('search-input').value.toLowerCase();
+      var cards = document.querySelectorAll('.card');
+      var suggestionsContainer = document.getElementById('search-suggestions');
+
+      cards.forEach(function(card) {
+        var titleElement = card.querySelector('.card-body h5 a');
+        var title = titleElement.textContent.toLowerCase();
+        if (title.includes(input)) {
+          card.style.display = 'block'; // Mostrar la tarjeta si coincide con la búsqueda
+          // Crear y agregar sugerencia debajo del input
+          var suggestion = document.createElement('div');
+          suggestion.textContent = titleElement.textContent;
+          suggestion.classList.add('suggestion');
+          suggestionsContainer.appendChild(suggestion);
+        } else {
+          card.style.display = 'none'; // Ocultar la tarjeta si no coincide con la búsqueda
+        }
+      });
+    }
+
+    // Evento para manejar la entrada del usuario en el campo de búsqueda
+    document.getElementById('search-input').addEventListener('input', searchItems);
+  </script>
+
+
+  
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% extends "main/layout3.html" %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen flex">
+  <div class="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
+    <div class="max-w-sm mx-auto">
+      <div class="text-center mb-6">
+        <div class="text-4xl font-bold text-blue-600 mb-4">Swaggy</div>
+        <h1 class="text-4xl font-bold text-blue-600">Hello, welcome!</h1>
+      </div>
+      <form method="post" action="{% url 'accounts:signup' %}">
+        {% csrf_token %}
+        <div class="mb-4">
+          <label class="block text-zinc-700">Email address</label>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="text-red-600">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700">Phone number</label>
+          {{ form.phone_number }}
+          {% if form.phone_number.errors %}
+            <div class="text-red-600">{{ form.phone_number.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700">First name</label>
+          {{ form.first_name }}
+          {% if form.first_name.errors %}
+            <div class="text-red-600">{{ form.first_name.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700">Last name</label>
+          {{ form.last_name }}
+          {% if form.last_name.errors %}
+            <div class="text-red-600">{{ form.last_name.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700">Password</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <div class="text-red-600">{{ form.password1.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700">Confirm password</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="text-red-600">{{ form.password2.errors }}</div>
+          {% endif %}
+        </div>
+        <div class="flex space-x-4 mb-4">
+          <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-lg">Sign up</button>
+        </div>
+      </form>
+      <div class="text-center">
+        <span class="text-zinc-700">Follow us</span>
+        <div class="flex justify-center space-x-4 mt-2">
+          <a href="#" class="text-zinc-700 hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-zinc-700 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-zinc-700 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hidden md:block md:w-1/2 bg-cover bg-center">
+    <img src="{% static 'images/background.svg' %}" alt="Background Image" class="w-full h-full object-cover">
+  </div>
+</div>
+{% endblock %}

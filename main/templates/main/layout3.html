@@ -1,0 +1,87 @@
+{% load get_group %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/styles.css' %}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-100">
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <a class="navbar-brand" href="/"><h3>Sarang's Snacks Center</h3></a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto"></ul>
+            <ul class="navbar-nav ml-auto">
+                <li><a href="{% url 'main:home' %}" class="mr-2 text-light">Home</a></li>
+                
+                <!-- for admin -->
+                {% if user.is_authenticated %}
+                    {% if request.user|has_group:"admin_owner" %} 
+                        <li><a href="{% url 'main:admin_dashboard' %}" class="mr-2 text-light">DashBoard</a></li>
+                        <li>
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="mr-2">Logout</button>
+                            </form>
+                        </li> 
+                    <!-- for user -->
+                    {% else %}
+                        <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+                        <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
+                        <li>
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="mr-2">Logout</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                <!-- for new -->
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}" class="mr-2 text-light">Login</a></li>
+                    <li><a href="{% url 'accounts:signup' %}" class="mr-2 text-light">SignUp</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- main section -->   
+    <main role="main">
+        <!-- if any msg -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- add content from other pages -->
+        {% block content %}
+            <!-- content from others page -->
+        {% endblock %}
+    </main>
+
+</body>
+</html>
