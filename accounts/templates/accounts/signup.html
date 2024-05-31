@@ -6,11 +6,18 @@
   <div class="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
     <div class="max-w-sm mx-auto">
       <div class="text-center mb-6">
-        <div class="text-4xl font-bold text-blue-600 mb-4">Swaggy</div>
+        <div class="text-4xl font-bold text-blue-600 mb-4">SignUp</div>
         <h1 class="text-4xl font-bold text-blue-600">Hello, welcome!</h1>
       </div>
       <form method="post" action="{% url 'accounts:signup' %}">
         {% csrf_token %}
+        <div class="mb-4">
+          <label class="block text-zinc-700">Username</label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="text-red-600">{{ form.username.errors }}</div>
+          {% endif %}
+        </div>
         <div class="mb-4">
           <label class="block text-zinc-700">Email address</label>
           {{ form.email }}
@@ -54,7 +61,15 @@
           {% endif %}
         </div>
         <div class="flex space-x-4 mb-4">
-          <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-lg">Sign up</button>
+
+          <button type="submit" class="flex justify-center items-center w-full bg-pink-500 text-white py-2 rounded-lg">
+            <span class="mr-1">Sign up</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-width="1.5"><circle cx="11" cy="6" r="4"/><path stroke-linecap="round" stroke-linejoin="round" d="m17 10.3l1.333 1.2L21 8.5"/><path stroke-linecap="round" d="M18.998 18c.002-.164.002-.331.002-.5c0-2.485-3.582-4.5-8-4.5s-8 2.015-8 4.5S3 22 11 22c2.231 0 3.84-.157 5-.437"/></g></svg>
+
+            
+
+          </button>
+
         </div>
       </form>
       <div class="text-center">

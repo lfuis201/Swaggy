@@ -66,10 +66,11 @@ class Item(models.Model):
         })
 
 class Reviews(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    item = models.ForeignKey(Item, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     rslug = models.SlugField()
     review = models.TextField()
+    stars = models.IntegerField(null=True, blank=True)  # New field for star rating
     posted_on = models.DateField(default=timezone.now)
 
     class Meta:

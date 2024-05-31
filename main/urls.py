@@ -19,7 +19,8 @@ from .views import (
     category_list,
     CategoryCreateView,
     CategoryUpdateView,
-    CategoryDeleteView
+    CategoryDeleteView,
+    checkout  
 )
 
 app_name = "main"
@@ -47,7 +48,8 @@ urlpatterns = [
     path('categories/create/', CategoryCreateView.as_view(), name='create_category'),
      path('categories/<int:pk>/update/', CategoryUpdateView.as_view(), name='update_category'),
     path('categories/<int:pk>/delete/', CategoryDeleteView.as_view(), name='delete_category'),
-    
+        path('checkout/', views.checkout, name='checkout'),  # Add the checkout URL
+
 
 
 ]

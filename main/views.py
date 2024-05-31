@@ -41,10 +41,11 @@ def add_reviews(request):
         rslug = request.POST.get("rslug")
         item = Item.objects.get(slug=rslug)
         review = request.POST.get("review")
+        stars = request.POST.get("stars")
 
-        reviews = Reviews(user=user, item=item, review=review, rslug=rslug)
+        reviews = Reviews(user=user, item=item, review=review, rslug=rslug, stars=stars)
         reviews.save()
-        messages.success(request, "Thankyou for reviewing this product!!")
+        messages.success(request, "Thank you for reviewing this product!")
     return redirect(f"/dishes/{item.slug}")
 
 class ItemCreateView(LoginRequiredMixin, CreateView):
@@ -155,7 +156,7 @@ def order_item(request):
 
     messages.info(request, "Item Ordered")
 
-    return redirect("main:order_details")
+    return redirect("main:checkout")
 
 
 @login_required
@@ -272,3 +273,8 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'main/delete_category.html'
     success_url = '/categories'
+
+@login_required(login_url='/accounts/login/')
+
+def checkout(request):
+    return render(request, 'main/checkout.html')

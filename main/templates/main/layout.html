@@ -10,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'main/styles.css' %}">
+
+    
+
     <title>Online Food Order System</title>
 </head>
 
@@ -18,7 +21,7 @@
 
     <!-- navigation bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <a class="navbar-brand" href="/"><h3>Sarang's Snacks Center</h3></a>
+        <a class="navbar-brand" href="/"><h3>Swaggy</h3></a>
         <button
             class="navbar-toggler"
             type="button"
@@ -42,21 +45,26 @@
                             <li>
                                 <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="mr-2">Logout</button>
+                                    <button type="submit" class="btn btn-dark text-white mr-2">
+                                        Logout
+                                    </button>
                                 </form>
                             </li> 
                         
-                        <!-- for user -->
+                     <!-- for user -->
                         {% else %}
-                            <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
-                            <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
-                            <li>
-                                <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="mr-2">Logout</button>
-                                </form>
-                            </li>
+                        <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+                        <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
+                        <li>
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-info text-white mr-2">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
                         {% endif %}
+
 
                     <!-- for new -->
                     {% else %}

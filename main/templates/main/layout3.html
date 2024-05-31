@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}My Site{% endblock %}</title>
+    <title>{% block title %}Swaggy{% endblock %}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
@@ -19,7 +19,7 @@
 
     <!-- navigation bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-        <a class="navbar-brand" href="/"><h3>Sarang's Snacks Center</h3></a>
+        <a class="navbar-brand" href="/"><h3>Swaggy</h3></a>
         <button
             class="navbar-toggler"
             type="button"
@@ -48,14 +48,16 @@
                         </li> 
                     <!-- for user -->
                     {% else %}
-                        <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
-                        <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
-                        <li>
-                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="mr-2">Logout</button>
-                            </form>
-                        </li>
+                    <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+                    <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
+                    <li>
+                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-info text-white mr-2">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
                     {% endif %}
                 <!-- for new -->
                 {% else %}

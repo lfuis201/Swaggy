@@ -25,7 +25,13 @@
                             <td>{{ cart.item.description }}</td>
                             <td>{{ cart.item.instructions }}</td>
                             <td>{{ cart.item.price }}</td>
-                            <td>{{ cart.item.pieces }} Q</td>
+                            <td>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ cart.item.pieces }}" min="1" class="form-control w-50 d-inline-block">
+                                    <button type="submit" class="btn btn-primary ml-2">Update</button>
+                                </form>
+                            </td>
                             <td><a class="btn btn-danger" href="{% url 'main:remove-from-cart' cart.id %}">Delete😢</a></td>
                         </tr>
                             {% endfor %}

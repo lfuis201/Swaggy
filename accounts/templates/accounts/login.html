@@ -5,10 +5,13 @@
 <div class="min-h-screen flex">
   <div class="w-full md:w-1/2 bg-white flex flex-col justify-center p-8">
     <div class="max-w-sm mx-auto">
-      <div class="text-center mb-6">
+      <div class="text-center mb-6 flex items-center justify-center">
         <div class="text-4xl font-bold text-blue-600 mb-4">Swaggy</div>
-        <h1 class="text-4xl font-bold text-blue-600">Hello, welcome!</h1>
-      </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" class="text-pink-500 fill-current">
+          <path d="M18.06 23h1.66c.84 0 1.53-.65 1.63-1.47L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26c1.44 1.42 2.43 2.89 2.43 5.29zM1 22v-1h15.03v1c0 .54-.45 1-1.03 1H2c-.55 0-1-.46-1-1m15.03-7C16.03 7 1 7 1 15zM1 17h15v2H1z"/>
+        </svg>      </div>
+      
+      <h1 class="text-4xl font-bold text-blue-600 text-center">Hello, welcome!</h1>
       <form method="post" action="{% url 'accounts:login' %}">
         {% csrf_token %}
         {% if form.non_field_errors %}
@@ -38,7 +41,16 @@
           <a href="{% url 'accounts:password_reset' %}" class="text-blue-600 hover:underline">Forgot password?</a>
         </div>
         <div class="flex space-x-4 mb-4">
-          <button type="submit" class="w-full bg-pink-500 text-white py-2 rounded-lg">Login</button>
+          <button type="submit" class="flex justify-center items-center w-full bg-pink-500 text-white py-2 rounded-lg">
+            <span class="mr-1">Login</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#ffffff" viewBox="0 0 24 24">
+              <path d="M12 21v-2h7V5h-7V3h7q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm-2-4l-1.375-1.45l2.55-2.55H3v-2h8.175l-2.55-2.55L10 7l5 5z"/>
+            </svg>
+
+            
+
+          </button>
+          
           <a href="{% url 'accounts:signup' %}" class="w-full bg-white border border-blue-600 text-blue-600 py-2 rounded-lg text-center">Sign up</a>
         </div>
       </form>

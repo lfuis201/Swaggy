@@ -1,7 +1,9 @@
-{% extends "main/layout.html" %}
+{% extends "main/layout3.html" %}
+{% load get_group %}
+
 {% block content %}
 <div class="dishes">
-    <!--Main layout-->
+  <!--Main layout-->
   <main class="mt-3 pt-4 main">
     <div class="container dark-grey-text">
       <div class="row wow fadeIn">
@@ -12,7 +14,8 @@
           <!--Content-->
           <div class="p-4 content">
             <div class="mt-0">
-                <h2><u>{{ item.title }}</u><span class="badge badge-{{ item.label_colour }} ml-2">{{ item.labels }}</span></h2>
+              <h2><u>{{ item.title }}</u><span class="badge badge-{{ item.label_colour }} ml-2">{{ item.labels }}</span>
+              </h2>
             </div>
             <div class="lead">
               {% if item.description %}
@@ -30,13 +33,27 @@
   </main>
   <div class="container">
     <h1 class="text-center">Reviews</h1>
-    
-    <form action="{% url 'main:add_reviews' %}" method="POST" class="mb-3">
+
+    <form action="{% url 'main:add_reviews' %}" method="POST" class="mb-3" onsubmit="return validateForm()">
       {% csrf_token %}
       <div class="row">
         <div class="col-sm-11">
-          <input type="text" name="review" class="form-control" placeholder="Enter Your Review">
+          <input type="text" name="review" id="review" class="form-control mb-2" placeholder="Enter Your Review"
+            required>
           <input type="hidden" name="rslug" class="form-control" value="{{item.slug}}">
+          <div class=" items-center mb-2">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+              <p class="text-zinc-500 mb-2">How was your experience?</p>
+              <div class="flex justify-center space-x-1">
+                <button type="button" class="star text-secondary text-3xl" value="1">&#9733;</button>
+                <button type="button" class="star text-secondary text-3xl" value="2">&#9733;</button>
+                <button type="button" class="star text-secondary text-3xl" value="3">&#9733;</button>
+                <button type="button" class="star text-secondary text-3xl" value="4">&#9733;</button>
+                <button type="button" class="star text-secondary text-3xl" value="5">&#9733;</button>
+              </div>
+              <input type="hidden" id="rating" name="stars" value="" required>
+            </div>
+          </div>
         </div>
         <div class="col-sm-1">
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,18 +61,85 @@
       </div>
     </form>
 
-    {% for review in reviews %}
-    <div class="main-reviews card bg-success mb-3">
-      <div class="card-body">
-        <div class="user_details" style="display: flex; border-bottom: 1px solid rgb(31, 30, 30);">
-          <h3 class="mr-3">{{ review.user.username }} </h3>
-          <p class="mt-2">{{ review.posted_on }}</p>
-        </div>
-          <h4>{{ review.review }}</h4>
-      </div>
+
+
+
+    <script>
+      const stars = document.querySelectorAll('.star');
+      const ratingInput = document.getElementById('rating');
+      const reviewInput = document.getElementById('review');
+
+      stars.forEach((star) => {
+        star.addEventListener('click', () => {
+          const rating = parseInt(star.value);
+          ratingInput.value = rating;
+          stars.forEach((s) => {
+            s.classList.toggle('text-yellow-500', parseInt(s.value) <= rating);
+            s.classList.toggle('text-secondary', parseInt(s.value) > rating);
+          });
+        });
+      });
+
+      function validateForm() {
+        if (reviewInput.value.trim() === '') {
+          alert('Please enter your review.');
+          return false;
+        }
+        if (ratingInput.value === '') {
+          alert('Please select a rating.');
+          return false;
+        }
+        return true;
+      }
+
+      // Mostrar estrellas para cada reseña
+
+
+    </script>
+
+
+
+{% for review in reviews %}
+<div class="main-reviews card bg-success mb-3">
+  <div class="card-body">
+    <div class="user_details" style="display: flex; border-bottom: 1px solid rgb(31, 30, 30);">
+      <h3 class="mr-3">{{ review.user.username }}</h3>
+      <p class="mt-2">{{ review.posted_on }} </p>
+      <p class="mt-2 ml-3 text-white">
+        <span class="font-weight-bold font-size-lg">{{ review.stars|stars_to_emojis }}</span>
+      </p>    
     </div>
-    {% endfor %}
-    
+    <h4 class="text-white">{{ review.review }}</h4>
   </div>
+</div>
+{% endfor %}
+
+<script>
+  // Mapea los números a emojis
+  const emojiMapping = {
+    '1': '⭐',
+    '2': '⭐⭐',
+    '3': '⭐⭐⭐',
+    '4': '⭐⭐⭐⭐',
+    '5': '⭐⭐⭐⭐⭐',
+  };
+
+  // Obtiene el elemento donde se mostrarán los emojis
+  const starsElement = document.getElementById('stars');
+
+  // Obtiene la cantidad de estrellas del elemento
+  const stars2 = parseInt(starsElement.textContent.trim());
+
+  // Convierte la cantidad de estrellas a emojis usando el mapeo
+  const emoji = emojiMapping[stars2.toString()];
+
+  // Reemplaza el contenido del elemento con el emoji
+  starsElement.textContent = emoji;
+</script>
+
+  </div>
+
+
+
 </div>
 {% endblock content %}

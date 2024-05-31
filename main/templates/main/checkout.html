@@ -1,0 +1,79 @@
+{% load static %}
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-blue-800 p-4">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full md:w-3/4 lg:w-1/2 flex flex-col md:flex-row">
+    <div class="w-full md:w-1/2 bg-black p-4 flex items-center justify-center">
+      <img src="{% static 'images/background.svg' %}" alt="Background Image" class="w-full h-full object-cover">
+
+    </div>
+    <div class="w-full md:w-1/2 p-6">
+      <h2 class="text-2xl font-bold text-purple-700 mb-4">CheckOut</h2>
+      <h3 class="text-lg font-semibold text-zinc-700 mb-6">Payment Information</h3>
+      <form>
+        <div class="mb-4">
+          <label class="block text-zinc-700 text-sm font-bold mb-2" for="cardholder-name">Cardholder Name</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="cardholder-name" type="text" placeholder="Cardholder Name">
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700 text-sm font-bold mb-2" for="card-number">Card Number</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="card-number" type="text" placeholder="Card Number">
+        </div>
+        <div class="mb-4">
+          <label class="block text-zinc-700 text-sm font-bold mb-2" for="card-type">Card Type</label>
+          <select class="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="card-type">
+            <option>--Select a Card Type--</option>
+            <option>Visa</option>
+            <option>MasterCard</option>
+            <option>American Express</option>
+            <option>Yape</option>
+
+          </select>
+        </div>
+        <div class="mb-4 flex space-x-4">
+          <div class="w-1/2">
+            <label class="block text-zinc-700 text-sm font-bold mb-2" for="expiry">Expiry</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="expiry" type="text" placeholder="mm / dd / yyyy">
+          </div>
+          <div class="w-1/2">
+            <label class="block text-zinc-700 text-sm font-bold mb-2" for="cvv">CVV</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="CVV">
+          </div>
+        </div>
+
+        
+
+        <div class="flex items-center justify-center">
+          <a href="{% url 'main:home' %}" class="bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="button">CheckOut</button>
+        </a>
+        
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const cardTypeSelect = document.getElementById('card-type');
+      const yapeInput = document.getElementById('yape-input');
+  
+      cardTypeSelect.addEventListener('change', function() {
+          if (cardTypeSelect.value === 'Yape') {
+              yapeInput.style.display = 'block';
+          } else {
+              yapeInput.style.display = 'none';
+          }
+      });
+  });
+  </script>
+
+  </body>
+</html>

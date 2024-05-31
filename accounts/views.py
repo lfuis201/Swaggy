@@ -1,26 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
-from .forms import NewUSerForm
 
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.views import PasswordResetView
 from django.core.mail import send_mail
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+
+
 from .forms import UserEditForm
 
 from .forms import CustomAuthenticationForm
+from .forms import CustomSignupForm
+from .forms import CustomPasswordChangeForm
 
 def signup_view(request):
     if request.method == 'POST':
-        form = NewUSerForm(request.POST)
+        form = CustomSignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('main:home')
     else:
-        form = NewUSerForm()
+        form = CustomSignupForm()
     return render(request, 'accounts/signup.html', { 'form': form })
 
 def login_view(request):
@@ -49,13 +54,24 @@ def logout_view(request):
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('main:home')  # Reemplaza 'main:profile' con la URL de la página de perfil
+        user_form = UserEditForm(request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(request.user, request.POST)
+        if user_form.is_valid() and password_form.is_valid():
+            user_form.save()
+            user = password_form.save()
+            update_session_auth_hash(request, user)  # Importante para mantener la sesión después del cambio de contraseña
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
     else:
-        form = UserEditForm(instance=request.user)
-    return render(request, 'accounts/edit_profile.html', {'form': form})
+        user_form = UserEditForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(request.user)
+
+    return render(request, 'accounts/edit_profile.html', {
+        'user_form': user_form,
+        'password_form': password_form
+    })
 
         
 class CustomPasswordResetView(PasswordResetView):
